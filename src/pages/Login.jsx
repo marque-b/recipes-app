@@ -1,20 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AppReceitasContext from '../context/AppReceitasContext';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  const { user, setUser } = useContext(AppReceitasContext);
-
-  console.log(user);
-  console.log(setUser);
+  const history = useHistory();
 
   const handleInputEmailAndPassword = () => {
     const regexEmail = /\S+@\S+\.\S+/;
     const validateEmail = email.match(regexEmail);
     const passwordLength = 6;
-    console.log(password.length);
     if (validateEmail && password.length > passwordLength) {
       setButtonDisabled(false);
     } else {
@@ -31,6 +27,13 @@ function Login() {
   };
 
   useEffect(() => handleInputEmailAndPassword(), [email, password]);
+
+  const handleClick = () => {
+    localStorage.setItem('user', JSON.stringify({ email }));
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('drinksToken', 1);
+    history.push('/meals');
+  };
 
   return (
     <form>
@@ -57,9 +60,10 @@ function Login() {
       </label>
 
       <button
-        type="button"
+        type="submit"
         data-testid="login-submit-btn"
         disabled={ buttonDisabled }
+        onClick={ handleClick }
       >
         Entrar
       </button>
