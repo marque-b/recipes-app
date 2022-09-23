@@ -4,7 +4,17 @@ import AppReceitasContext from './AppReceitasContext';
 
 function Provider({ children }) {
   const [user, setUser] = useState([]);
-  const contextValue = { user, setUser };
+  const [meals, setMeals] = useState([]);
+  const [drinks, setDrinks] = useState([]);
+
+  const contextValue = {
+    user,
+    setUser,
+    meals,
+    setMeals,
+    drinks,
+    setDrinks,
+  };
 
   return (
     <AppReceitasContext.Provider value={ contextValue }>
