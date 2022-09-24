@@ -1,13 +1,13 @@
 import React from 'react';
 import Footer from '../components/Footer';
 
-function Meals() {
+function Profile() {
   return (
     <div>
-      Meals
+      Profile
       <Footer />
     </div>
   );
 }
 
-export default Meals;
+export default Profile;
