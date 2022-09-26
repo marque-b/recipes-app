@@ -4,7 +4,6 @@ function Meals() {
   return (
     <div>
       Meals
-      <input type="hidden" />
     </div>
   );
 }
