@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppReceitasContext from '../context/AppReceitasContext';
+import DrinksRecommendationCarousel from './DrinksRecommendationCarousel';
 
 const ingredientsAndMeasure = [
   {
@@ -129,6 +130,7 @@ function MealsDetails({ recipe }) {
       >
         {recipe.strInstructions}
       </p>
+
       <iframe
         data-testid="video"
         src={ `${recipe.strYoutube.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}` }
@@ -142,6 +144,9 @@ function MealsDetails({ recipe }) {
         allowFullScreen
         title="Embedded youtube"
       />
+
+      <DrinksRecommendationCarousel />
+
     </div>
   );
 }

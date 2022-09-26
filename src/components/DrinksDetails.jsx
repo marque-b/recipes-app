@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppReceitasContext from '../context/AppReceitasContext';
+import MealsRecommendationCarousel from './MealsRecommendationCarousel';
 
 const ingredientsAndMeasure = [
   {
@@ -86,12 +87,12 @@ const ingredientsAndMeasure = [
 ];
 
 function DrinksDetails({ recipe }) {
-  const { setRecommendedDrinks } = useContext(AppReceitasContext);
+  const { setRecommendedMeals } = useContext(AppReceitasContext);
 
   useEffect(() => {
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then((response) => response.json())
-      .then((json) => setRecommendedDrinks(json));
+      .then((json) => setRecommendedMeals(json));
   }, []);
 
   if (!recipe) return '';
@@ -129,6 +130,7 @@ function DrinksDetails({ recipe }) {
       >
         {recipe.strInstructions}
       </p>
+      <MealsRecommendationCarousel />
     </div>
   );
 }
