@@ -3,9 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helper/renderWithRouter';
-
-const EMAIL_INPUT = 'email-input';
-const PASSWORD_INPUT = 'password-input';
+import { EMAIL_INPUT, PASSWORD_INPUT } from '../services/consts';
 
 describe(' Login page', () => {
   beforeEach(() => {
