@@ -40,7 +40,6 @@ function SearchBar() {
       global.alert('The search input and type of search must be filled');
       break;
     }
-  // }
   };
 
   return (
@@ -50,6 +49,7 @@ function SearchBar() {
         <input
           type="text"
           id="search-bar"
+          data-testid="search-input"
           onChange={ ({ target }) => setSearchInput(target.value) }
         />
       </label>

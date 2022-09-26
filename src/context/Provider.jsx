@@ -6,7 +6,7 @@ function Provider({ children }) {
   const [user, setUser] = useState([]);
   const [meals, setMeals] = useState([]);
   const [drinks, setDrinks] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([{}]);
   const [recommendedDrinks, setRecommendedDrinks] = useState({ drinks: [] });
   const [recommendedMeals, setRecommendedMeals] = useState({ meals: [] });
 
