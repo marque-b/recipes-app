@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppReceitasContext from '../context/AppReceitasContext';
 import MealsRecommendationCarousel from './MealsRecommendationCarousel';
+import './Details.css';
 
 const ingredientsAndMeasure = [
   {
@@ -119,7 +120,10 @@ function DrinksDetails({ recipe }) {
           recipe[pair.ingredients] === null
             ? ''
             : (
-              <li data-testid={ `${i}-ingredient-name-and-measure` }>
+              <li
+                data-testid={ `${i}-ingredient-name-and-measure` }
+                key={ pair.ingredients }
+              >
                 {`${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
               </li>
             )
@@ -131,6 +135,14 @@ function DrinksDetails({ recipe }) {
         {recipe.strInstructions}
       </p>
       <MealsRecommendationCarousel />
+
+      <button
+        data-testid="start-recipe-btn"
+        type="button"
+        className="button-start-recipe"
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }

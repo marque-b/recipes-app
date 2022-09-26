@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppReceitasContext from '../context/AppReceitasContext';
 import DrinksRecommendationCarousel from './DrinksRecommendationCarousel';
+import './Details.css';
 
 const ingredientsAndMeasure = [
   {
@@ -146,6 +147,13 @@ function MealsDetails({ recipe }) {
       />
 
       <DrinksRecommendationCarousel />
+      <button
+        data-testid="start-recipe-btn"
+        type="button"
+        className="button-start-recipe"
+      >
+        Start Recipe
+      </button>
 
     </div>
   );
