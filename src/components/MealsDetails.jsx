@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Header from './Header';
 
 const ingredientsAndMeasure = [
   {
@@ -89,6 +90,7 @@ function MealsDetails({ recipe }) {
 
   return (
     <div>
+      <Header />
       <img
         src={ recipe.strMealThumb }
         alt={ recipe.strMeal }
