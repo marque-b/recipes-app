@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import AppReceitasContext from '../context/AppReceitasContext';
 
 const ingredientsAndMeasure = [
   {
@@ -85,6 +86,14 @@ const ingredientsAndMeasure = [
 ];
 
 function DrinksDetails({ recipe }) {
+  const { setRecommendedDrinks } = useContext(AppReceitasContext);
+
+  useEffect(() => {
+    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+      .then((response) => response.json())
+      .then((json) => setRecommendedDrinks(json));
+  }, []);
+
   if (!recipe) return '';
 
   return (

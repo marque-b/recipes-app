@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Header from './Header';
+import AppReceitasContext from '../context/AppReceitasContext';
 
 const ingredientsAndMeasure = [
   {
@@ -86,11 +86,18 @@ const ingredientsAndMeasure = [
 ];
 
 function MealsDetails({ recipe }) {
+  const { setRecommendedDrinks } = useContext(AppReceitasContext);
+
+  useEffect(() => {
+    fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
+      .then((response) => response.json())
+      .then((json) => setRecommendedDrinks(json));
+  }, []);
+
   if (!recipe) return '';
 
   return (
     <div>
-      <Header />
       <img
         src={ recipe.strMealThumb }
         alt={ recipe.strMeal }
