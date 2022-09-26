@@ -24,7 +24,7 @@ function RecipeDetails() {
         .then((response) => response.json())
         .then((json) => setRecipes(json));
     }
-  }, []);
+  }, [history.location.pathname, id]);
 
   return (
     <div>
