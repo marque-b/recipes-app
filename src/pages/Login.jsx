@@ -7,16 +7,19 @@ function Login() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const history = useHistory();
 
-  const handleInputEmailAndPassword = () => {
-    const regexEmail = /\S+@\S+\.\S+/;
-    const validateEmail = email.match(regexEmail);
-    const passwordLength = 6;
-    if (validateEmail && password.length > passwordLength) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
-  };
+  useEffect(() => {
+    const handleInputEmailAndPassword = () => {
+      const regexEmail = /\S+@\S+\.\S+/;
+      const validateEmail = email.match(regexEmail);
+      const passwordLength = 6;
+      if (validateEmail && password.length > passwordLength) {
+        setButtonDisabled(false);
+      } else {
+        setButtonDisabled(true);
+      }
+    };
+    handleInputEmailAndPassword();
+  }, [email, password]);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -25,8 +28,6 @@ function Login() {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
-  useEffect(() => handleInputEmailAndPassword(), [email, password]);
 
   const handleClick = () => {
     localStorage.setItem('user', JSON.stringify({ email }));
