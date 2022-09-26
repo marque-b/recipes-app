@@ -1,0 +1,12 @@
+.recommendation-pair {
+  display: flex;
+  justify-content: center;
+}
+
+.recommendation-individual-card {
+  width: 170px;
+}
+
+.recommendation-individual-card > img {
+  width: 160px;
+}
