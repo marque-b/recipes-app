@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AppReceitasContext from '../context/AppReceitasContext';
 import DrinksRecommendationCarousel from './DrinksRecommendationCarousel';
@@ -89,11 +89,22 @@ const ingredientsAndMeasure = [
 
 function MealsDetails({ recipe }) {
   const { setRecommendedDrinks } = useContext(AppReceitasContext);
+  const [recipeStarted, setRecipeStarted] = useState(false);
 
   useEffect(() => {
     fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
       .then((response) => response.json())
       .then((json) => setRecommendedDrinks(json));
+
+    const inProgressRecipes = localStorage.getItem('inProgressRecipes');
+    if (inProgressRecipes !== null) {
+      const inProgressRecipesObject = JSON.parse(inProgressRecipes);
+      const started = Object
+        .keys(inProgressRecipesObject.meals).includes(recipe?.idMeal);
+      if (started === true) {
+        setRecipeStarted(true);
+      }
+    }
   }, []);
 
   if (!recipe) return '';
@@ -152,7 +163,9 @@ function MealsDetails({ recipe }) {
         type="button"
         className="button-start-recipe"
       >
-        Start Recipe
+        { recipeStarted
+          ? 'Continue Recipe'
+          : 'Start Recipe'}
       </button>
 
     </div>
@@ -166,6 +179,7 @@ MealsDetails.propTypes = {
     strCategory: PropTypes.string,
     strInstructions: PropTypes.string,
     strYoutube: PropTypes.string,
+    idMeal: PropTypes.string,
   }).isRequired,
 };
 
