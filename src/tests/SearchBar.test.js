@@ -2,19 +2,16 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
-import App from '../App';
-import { EMAIL_INPUT, EXEC_SEARCH_BTN, LOGIN_SUBMIT_BTN, PASSWORD_INPUT, VALID_EMAIL } from '../services/consts';
+import { EXEC_SEARCH_BTN, SEARCH_TOP_BTN } from '../services/consts';
+import Provider from '../context/Provider';
+import Meals from '../pages/Meals';
 
 describe('Search Bar tests', () => {
   it('The search bar inputs are rendered', () => {
-    renderWithRouter(<App />);
-    const emailInput = screen.getByTestId(EMAIL_INPUT);
-    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
-    const loginBtn = screen.getByTestId(LOGIN_SUBMIT_BTN);
-
-    userEvent.type(emailInput, VALID_EMAIL);
-    userEvent.type(passwordInput, '1234567');
-    userEvent.click(loginBtn);
+    renderWithRouter(<Provider><Meals /></Provider>, '/meals');
+    const searchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    expect(searchBtn).toBeInTheDocument();
+    userEvent.click(searchBtn);
 
     const searchInput = screen.getByTestId('search-input');
     const ingredientSearchRadio = screen.getByTestId('ingredient-search-radio');
@@ -30,14 +27,11 @@ describe('Search Bar tests', () => {
   });
 
   it('The user receives an alert if the search input is empty', () => {
-    renderWithRouter(<App />);
-    const emailInput = screen.getByTestId(EMAIL_INPUT);
-    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
-    const loginBtn = screen.getByTestId(LOGIN_SUBMIT_BTN);
+    renderWithRouter(<Provider><Meals /></Provider>, '/meals');
 
-    userEvent.type(emailInput, VALID_EMAIL);
-    userEvent.type(passwordInput, '1234567');
-    userEvent.click(loginBtn);
+    const searchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    expect(searchBtn).toBeInTheDocument();
+    userEvent.click(searchBtn);
 
     jest.spyOn(global, 'alert');
     const executeSearchButton = screen.getByTestId(EXEC_SEARCH_BTN);
@@ -46,15 +40,11 @@ describe('Search Bar tests', () => {
   });
 
   it('The user receives an alert if the search input have more than 1 letter', () => {
-    renderWithRouter(<App />);
+    renderWithRouter(<Provider><Meals /></Provider>, '/meals');
 
-    const emailInput = screen.getByTestId(EMAIL_INPUT);
-    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
-    const loginBtn = screen.getByTestId(LOGIN_SUBMIT_BTN);
-
-    userEvent.type(emailInput, VALID_EMAIL);
-    userEvent.type(passwordInput, '1234567');
-    userEvent.click(loginBtn);
+    const searchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    expect(searchBtn).toBeInTheDocument();
+    userEvent.click(searchBtn);
 
     const searchInput = screen.getByTestId('search-input');
     const initialLetterSearchRadio = screen.getByTestId('first-letter-search-radio');
