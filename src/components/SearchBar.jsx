@@ -16,6 +16,7 @@ function SearchBar() {
   const executeSearch = async () => {
     if (typeOfSearch === 'first-letter-search' && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
+      return;
     }
     switch (`${pathname} ${typeOfSearch}`) {
     case '/meals name-search':

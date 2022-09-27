@@ -9,6 +9,8 @@ function RecipeDetails() {
     drinks: [],
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const APIMeals = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
   const APIDrinks = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
   const history = useHistory();
@@ -18,22 +20,22 @@ function RecipeDetails() {
     if (history.location.pathname.includes('meals')) {
       fetch(`${APIMeals}${id}`)
         .then((response) => response.json())
-        .then((json) => setRecipes(json));
+        .then((json) => setRecipes(json))
+        .then(() => setIsLoading(false));
     } else if (history.location.pathname.includes('drinks')) {
       fetch(`${APIDrinks}${id}`)
         .then((response) => response.json())
-        .then((json) => setRecipes(json));
+        .then((json) => setRecipes(json))
+        .then(() => setIsLoading(false));
     }
   }, [history.location.pathname, id]);
 
-  return (
-    <div>
-      {history.location.pathname.includes('meals')
-        ? <MealsDetails recipe={ recipes.meals[0] } />
-        : <DrinksDetails recipe={ recipes.drinks[0] } />}
-
-    </div>
-  );
+  if (isLoading === true) {
+    return <p>Loading</p>;
+  }
+  return history.location.pathname.includes('meals')
+    ? <MealsDetails recipe={ recipes.meals[0] } />
+    : <DrinksDetails recipe={ recipes.drinks[0] } />;
 }
 
 export default RecipeDetails;

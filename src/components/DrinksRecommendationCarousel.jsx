@@ -5,7 +5,7 @@ import './RecommendationCarousel.css';
 
 function DrinksRecommendationCarousel() {
   const { recommendedDrinks } = useContext(AppReceitasContext);
-  if (!recommendedDrinks.drinks) return '';
+  if (!recommendedDrinks.drinks || recommendedDrinks.drinks.length === 0) return '';
   const numberLimit = 6;
   const top6RecommendedDrinks = recommendedDrinks.drinks.slice(0, numberLimit);
 
