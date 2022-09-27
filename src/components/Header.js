@@ -1,11 +1,12 @@
-import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
+  // Verifica o path para renderizar o título no header
   const path = useHistory().location.pathname;
-
   const title = () => {
     switch (path) {
     case '/meals':
@@ -19,8 +20,13 @@ function Header() {
     case '/favorite-recipes':
       return 'Favorite Recipes';
     default:
-      break;
     }
+  };
+
+  // Habilita e desabilita a Search Bar
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const handleSearchBar = () => {
+    setShowSearchBar(!showSearchBar);
   };
 
   return (
@@ -36,16 +42,25 @@ function Header() {
 
       {/* Ícone de pesquisa */}
       { (title() === 'Meals' || title() === 'Drinks')
-      && <img
-        data-testid="search-top-btn"
-        src={ searchIcon }
-        alt="Search pic"
-      /> }
+      && (
+        <button
+          type="button"
+          onClick={ handleSearchBar }
+        >
+          <img
+            data-testid="search-top-btn"
+            src={ searchIcon }
+            alt="Search pic"
+          />
+        </button>)}
 
       {/* Título da página */}
       <h1 data-testid="page-title">
         {title()}
       </h1>
+
+      {showSearchBar
+          && <SearchBar />}
 
       <hr />
     </header>
