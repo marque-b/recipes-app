@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
 function RecipeCard({ param, index }) {
-  // function RecipeCard({ param }, { children }) {
   const { strMeal, strMealThumb, strDrink, strDrinkThumb } = param;
 
   const { pathname } = useLocation();
@@ -39,7 +38,7 @@ function RecipeCard({ param, index }) {
                   alt={ strDrink }
                   data-testid={ `${index}-card-img` }
                   style={ { width: '150px' } }
-                  // Tamanho da imagem limitado durante desenvolvimento
+                  // Tamanho da imagem limitado
                 />
                 <p data-testid={ `${index}-card-name` }>
                   { strDrink }
