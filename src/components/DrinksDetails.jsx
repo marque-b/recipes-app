@@ -4,92 +4,11 @@ import { useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import AppReceitasContext from '../context/AppReceitasContext';
 import MealsRecommendationCarousel from './MealsRecommendationCarousel';
+import { INGREDIENTS_AND_MEASURE } from '../services/consts';
 import './Details.css';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-
-const ingredientsAndMeasure = [
-  {
-    ingredients: 'strIngredient1',
-    measure: 'strMeasure1',
-  },
-  {
-    ingredients: 'strIngredient2',
-    measure: 'strMeasure2',
-  },
-  {
-    ingredients: 'strIngredient3',
-    measure: 'strMeasure3',
-  },
-  {
-    ingredients: 'strIngredient4',
-    measure: 'strMeasure4',
-  },
-  {
-    ingredients: 'strIngredient5',
-    measure: 'strMeasure5',
-  },
-  {
-    ingredients: 'strIngredient6',
-    measure: 'strMeasure6',
-  },
-  {
-    ingredients: 'strIngredient7',
-    measure: 'strMeasure7',
-  },
-  {
-    ingredients: 'strIngredient8',
-    measure: 'strMeasure8',
-  },
-  {
-    ingredients: 'strIngredient9',
-    measure: 'strMeasure9',
-  },
-  {
-    ingredients: 'strIngredient10',
-    measure: 'strMeasure10',
-  },
-  {
-    ingredients: 'strIngredient11',
-    measure: 'strMeasure11',
-  },
-  {
-    ingredients: 'strIngredient12',
-    measure: 'strMeasure12',
-  },
-  {
-    ingredients: 'strIngredient13',
-    measure: 'strMeasure13',
-  },
-  {
-    ingredients: 'strIngredient14',
-    measure: 'strMeasure14',
-  },
-  {
-    ingredients: 'strIngredient15',
-    measure: 'strMeasure15',
-  },
-  {
-    ingredients: 'strIngredient16',
-    measure: 'strMeasure16',
-  },
-  {
-    ingredients: 'strIngredient17',
-    measure: 'strMeasure17',
-  },
-  {
-    ingredients: 'strIngredient18',
-    measure: 'strMeasure18',
-  },
-  {
-    ingredients: 'strIngredient19',
-    measure: 'strMeasure19',
-  },
-  {
-    ingredients: 'strIngredient20',
-    measure: 'strMeasure20',
-  },
-];
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function DrinksDetails({ recipe }) {
   const { setRecommendedMeals } = useContext(AppReceitasContext);
@@ -124,6 +43,27 @@ function DrinksDetails({ recipe }) {
     setCopyText('Link copied!');
   };
 
+  const isFavorite = () => {
+    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const favoriteRecipes = JSON.parse(favorites);
+    return favoriteRecipes.some((favoriteRecipe) => favoriteRecipe.id === recipe.idDrink);
+  };
+
+  const handleClickFavorites = () => {
+    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const favoriteRecipes = JSON.parse(favorites);
+    favoriteRecipes.push({
+      id: recipe.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic,
+      name: recipe.strDrink,
+      image: recipe.strDrinkThumb,
+    });
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  };
+
   return (
     <div>
       <img
@@ -141,11 +81,15 @@ function DrinksDetails({ recipe }) {
       </button>
 
       <button
-        data-testid="favorite-btn"
         type="button"
         className="favorite-button"
+        onClick={ handleClickFavorites }
       >
-        <img src={ whiteHeartIcon } alt="favorite button" />
+        <img
+          data-testid="favorite-btn"
+          alt="heart white or black"
+          src={ isFavorite() ? blackHeartIcon : whiteHeartIcon }
+        />
       </button>
       <p>{ copyText }</p>
       <h1
@@ -159,7 +103,7 @@ function DrinksDetails({ recipe }) {
         {recipe.strAlcoholic}
       </p>
       <ul>
-        { ingredientsAndMeasure.map((pair, i) => (
+        { INGREDIENTS_AND_MEASURE.map((pair, i) => (
           recipe[pair.ingredients] === null
             ? ''
             : (
