@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import AppReceitasContext from '../context/AppReceitasContext';
 import DrinksRecommendationCarousel from './DrinksRecommendationCarousel';
 import './Details.css';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 const ingredientsAndMeasure = [
   {
@@ -92,6 +95,7 @@ function MealsDetails({ recipe }) {
   const { setRecommendedDrinks } = useContext(AppReceitasContext);
   const [recipeStarted, setRecipeStarted] = useState(false);
   const history = useHistory();
+  const [copyText, setCopyText] = useState('');
 
   useEffect(() => {
     fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
@@ -115,6 +119,11 @@ function MealsDetails({ recipe }) {
     history.push(`/meals/${recipe.idMeal}/in-progress`);
   };
 
+  const copyToClipboard = () => {
+    copy(global.location.href);
+    setCopyText('Link copied!');
+  };
+
   return (
     <div>
       <img
@@ -122,6 +131,25 @@ function MealsDetails({ recipe }) {
         alt={ recipe.strMeal }
         data-testid="recipe-photo"
       />
+      <button
+        data-testid="share-btn"
+        type="button"
+        className="share-button"
+        onClick={ copyToClipboard }
+      >
+        <img src={ shareIcon } alt="share button" />
+      </button>
+
+      <button
+        data-testid="favorite-btn"
+        type="button"
+        className="favorite-button"
+
+      >
+        <img src={ whiteHeartIcon } alt="favorite button" />
+      </button>
+      <p>{ copyText }</p>
+
       <h1
         data-testid="recipe-title"
       >
