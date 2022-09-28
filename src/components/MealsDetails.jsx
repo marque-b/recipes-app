@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import AppReceitasContext from '../context/AppReceitasContext';
 import DrinksRecommendationCarousel from './DrinksRecommendationCarousel';
 import './Details.css';
@@ -90,6 +91,7 @@ const ingredientsAndMeasure = [
 function MealsDetails({ recipe }) {
   const { setRecommendedDrinks } = useContext(AppReceitasContext);
   const [recipeStarted, setRecipeStarted] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
@@ -108,6 +110,10 @@ function MealsDetails({ recipe }) {
   }, []);
 
   if (!recipe) return '';
+
+  const handleClickStart = () => {
+    history.push(`/meals/${recipe.idMeal}/in-progress`);
+  };
 
   return (
     <div>
@@ -162,6 +168,7 @@ function MealsDetails({ recipe }) {
         data-testid="start-recipe-btn"
         type="button"
         className="button-start-recipe"
+        onClick={ handleClickStart }
       >
         { recipeStarted
           ? 'Continue Recipe'

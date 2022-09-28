@@ -19,12 +19,13 @@ function Profile() {
     history.push('/');
   };
 
-  const emailLocalStorage = JSON.parse(localStorage.getItem('user'));
+  const emailLocalStorage = JSON.parse(localStorage.getItem('user'))?.email;
+
   return (
     <div>
       <Header />
       Profile
-      <p data-testid="profile-email">{emailLocalStorage.email}</p>
+      <p data-testid="profile-email">{emailLocalStorage }</p>
       <button
         data-testid="profile-done-btn"
         type="button"

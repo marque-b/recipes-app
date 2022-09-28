@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import AppReceitasContext from '../context/AppReceitasContext';
 import MealsRecommendationCarousel from './MealsRecommendationCarousel';
 import './Details.css';
@@ -90,6 +91,7 @@ const ingredientsAndMeasure = [
 function DrinksDetails({ recipe }) {
   const { setRecommendedMeals } = useContext(AppReceitasContext);
   const [recipeStarted, setRecipeStarted] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
@@ -108,6 +110,10 @@ function DrinksDetails({ recipe }) {
   }, []);
 
   if (!recipe) return '';
+
+  const handleClickStart = () => {
+    history.push(`/drinks/${recipe.idDrink}/in-progress`);
+  };
 
   return (
     <div>
@@ -151,6 +157,7 @@ function DrinksDetails({ recipe }) {
         data-testid="start-recipe-btn"
         type="button"
         className="button-start-recipe"
+        onClick={ handleClickStart }
       >
         { recipeStarted
           ? 'Continue Recipe'
