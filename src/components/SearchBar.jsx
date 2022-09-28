@@ -18,10 +18,10 @@ function SearchBar() {
   useEffect(() => {
     const { meals } = searchResults;
     const { drinks } = searchResults;
-    if (meals !== undefined && meals.length === 1) {
+    if (meals !== undefined && meals !== null && meals.length === 1) {
       history.push(`/meals/${meals[0].idMeal}`);
     }
-    if (drinks !== undefined && drinks.length === 1) {
+    if (drinks !== undefined && drinks !== null && drinks.length === 1) {
       history.push(`/drinks/${drinks[0].idDrink}`);
     }
   }, [searchResults, history]);
