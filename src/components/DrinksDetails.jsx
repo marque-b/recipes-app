@@ -15,6 +15,13 @@ function DrinksDetails({ recipe }) {
   const [recipeStarted, setRecipeStarted] = useState(false);
   const history = useHistory();
   const [copyText, setCopyText] = useState('');
+  const [favoriteSelected, setFavoriteSelected] = useState(false);
+
+  const isFavorite = () => {
+    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const favoriteRecipes = JSON.parse(favorites);
+    return favoriteRecipes.some((favoriteRecipe) => favoriteRecipe.id === recipe.idDrink);
+  };
 
   useEffect(() => {
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
@@ -30,6 +37,7 @@ function DrinksDetails({ recipe }) {
         setRecipeStarted(true);
       }
     }
+    setFavoriteSelected(isFavorite());
   }, []);
 
   if (!recipe) return '';
@@ -43,25 +51,27 @@ function DrinksDetails({ recipe }) {
     setCopyText('Link copied!');
   };
 
-  const isFavorite = () => {
-    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
-    const favoriteRecipes = JSON.parse(favorites);
-    return favoriteRecipes.some((favoriteRecipe) => favoriteRecipe.id === recipe.idDrink);
-  };
-
   const handleClickFavorites = () => {
     const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
     const favoriteRecipes = JSON.parse(favorites);
-    favoriteRecipes.push({
-      id: recipe.idDrink,
-      type: 'drink',
-      nationality: '',
-      category: recipe.strCategory,
-      alcoholicOrNot: recipe.strAlcoholic,
-      name: recipe.strDrink,
-      image: recipe.strDrinkThumb,
-    });
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+    if (isFavorite()) {
+      const removeFavorite = favoriteRecipes
+        .filter((favoriteRecipe) => favoriteRecipe.id !== recipe.idDrink);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
+      setFavoriteSelected(false);
+    } else {
+      favoriteRecipes.push({
+        id: recipe.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic,
+        name: recipe.strDrink,
+        image: recipe.strDrinkThumb,
+      });
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+      setFavoriteSelected(true);
+    }
   };
 
   return (
@@ -88,7 +98,7 @@ function DrinksDetails({ recipe }) {
         <img
           data-testid="favorite-btn"
           alt="heart white or black"
-          src={ isFavorite() ? blackHeartIcon : whiteHeartIcon }
+          src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
         />
       </button>
       <p>{ copyText }</p>
