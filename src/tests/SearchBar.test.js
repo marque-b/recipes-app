@@ -2,10 +2,12 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
-import allMeals from './mocks/allMeals.json';
+// import allMeals from './mocks/allMeals.json';
+import oneMeal from '../../cypress/mocks/oneMeal';
 import Provider from '../context/Provider';
 import Meals from '../pages/Meals';
 import Drinks from '../pages/Drinks';
+import App from '../App';
 
 const EXEC_SEARCH_BTN = 'exec-search-btn';
 const SEARCH_TOP_BTN = 'search-top-btn';
@@ -17,7 +19,7 @@ const CARD_NAME = '0-card-name';
 
 beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({
-    json: () => Promise.resolve(allMeals),
+    json: () => Promise.resolve(oneMeal),
   });
 });
 
@@ -72,8 +74,8 @@ describe('Search Bar tests', () => {
     expect(global.alert).toHaveBeenCalledTimes(1);
   });
 
-  it('The food recipe detail is exhibited when the search return a single recipe', async () => {
-    const { history } = renderWithRouter(<Provider><Meals /></Provider>, '/meals');
+  it.only('The food recipe detail is exhibited when the search return a single recipe', async () => {
+    const { history } = renderWithRouter(<App />, '/meals');
 
     const searchBtn = screen.getByTestId(SEARCH_TOP_BTN);
     userEvent.click(searchBtn);
@@ -86,8 +88,8 @@ describe('Search Bar tests', () => {
     userEvent.type(searchInput, 'Corba');
     userEvent.click(executeSearchButton);
 
-    const { pathname } = history.location;
-    await waitFor(() => expect(pathname).toBe('/meals/52977'));
+    // const { pathname } = history.location;
+    await waitFor(() => expect(history.location.pathname).toBe('/meals/52771'));
   });
 
   // it('The drink recipe detail is exhibited when the search return a single recipe', async () => {

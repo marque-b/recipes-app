@@ -24,6 +24,7 @@ export async function fetchFoodByInitialLetter(initial) {
 export async function fetchFoodById(id) {
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${Number(id)}`);
   const data = await response.json();
+  const cleanIngredients = Object.data.meals[0]
   return data.meals[0];
 }
 
