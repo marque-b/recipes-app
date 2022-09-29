@@ -147,19 +147,17 @@ function DrinkRecipeInProgress() {
             </p>
             <ul>
               { ingredientsAndMeasure.map((pair, i) => (
-                recipe[pair.ingredients] === ''
-                  ? ''
-                  : (
-                    <li data-testid={ `${i}-ingredient-name-and-measure` }>
-                      <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
-                        <input
-                          type="checkbox"
-                          id="step"
-                        />
-                      </label>
-                      {`${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
-                    </li>
-                  )
+                recipe[pair.ingredients] !== null
+                && (
+                  <li data-testid={ `${i}-ingredient-name-and-measure` }>
+                    <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
+                      <input
+                        type="checkbox"
+                        id="step"
+                      />
+                    </label>
+                    {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
+                  </li>)
               ))}
             </ul>
             <p

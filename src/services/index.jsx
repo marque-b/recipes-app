@@ -21,10 +21,22 @@ export async function fetchFoodByInitialLetter(initial) {
   return data;
 }
 
+// export async function fetchFoodById(id) {
+//   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${Number(id)}`);
+//   const data = await response.json();
+//   const recipe = data.meals[0];
+//   const cleanRecipe = Object.entries(recipe);
+//   cleanRecipe.forEach((arr) => arr.map((value) => {
+//     if (value === '') value.replace('', null);
+//     return value;
+//   }));
+//   console.log(cleanRecipe);
+//   return data.meals[0];
+// }
+
 export async function fetchFoodById(id) {
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${Number(id)}`);
   const data = await response.json();
-  const cleanIngredients = Object.data.meals[0]
   return data.meals[0];
 }
 
@@ -52,6 +64,6 @@ export async function fetchDrinkByInitialLetter(initial) {
 export async function fetchDrinkById(id) {
   const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
   const data = await response.json();
-  console.log(data);
+  console.log(data.drinks[0]);
   return data.drinks[0];
 }

@@ -100,7 +100,6 @@ function FoodRecipeInProgress() {
       const data = await fetchFoodById(id);
       setRecipe(data);
       setLoading(false);
-      console.log(data);
     };
     getRecipe();
   }, [id]);
@@ -148,19 +147,17 @@ function FoodRecipeInProgress() {
             </p>
             <ul>
               { ingredientsAndMeasure.map((pair, i) => (
-                recipe[pair.ingredients] === ''
-                  ? null
-                  : (
-                    <li data-testid={ `${i}-ingredient-name-and-measure` }>
-                      <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
-                        <input
-                          type="checkbox"
-                          id="step"
-                        />
-                      </label>
-                      {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
-                    </li>
-                  )
+                recipe[pair.ingredients] !== null && recipe[pair.ingredients].length > 1
+              && (
+                <li data-testid={ `${i}-ingredient-name-and-measure` }>
+                  <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
+                    <input
+                      type="checkbox"
+                      id="step"
+                    />
+                  </label>
+                  {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
+                </li>)
               ))}
             </ul>
             <p
