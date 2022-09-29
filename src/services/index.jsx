@@ -22,9 +22,9 @@ export async function fetchFoodByInitialLetter(initial) {
 }
 
 export async function fetchFoodById(id) {
-  const response = await fetch(`www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${Number(id)}`);
   const data = await response.json();
-  return data;
+  return data.meals[0];
 }
 
 export async function fetchDrinkRecipeByName(name) {
@@ -46,4 +46,11 @@ export async function fetchDrinkByInitialLetter(initial) {
   const data = await response.json();
   if (data.drinks === null) global.alert(NO_RECIPE_FOUND);
   return data;
+}
+
+export async function fetchDrinkById(id) {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const data = await response.json();
+  console.log(data);
+  return data.drinks[0];
 }

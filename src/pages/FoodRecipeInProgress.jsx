@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import DrinksRecommendationCarousel from '../components/DrinksRecommendationCarousel';
+// import DrinksRecommendationCarousel from '../components/DrinksRecommendationCarousel';
 import { fetchFoodById } from '../services';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -88,7 +88,7 @@ const ingredientsAndMeasure = [
   },
 ];
 
-function RecipeInProgress() {
+function FoodRecipeInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -96,7 +96,6 @@ function RecipeInProgress() {
   const id = pathname.split('/')[2];
 
   useEffect(() => {
-    console.log(id);
     const getRecipe = async () => {
       const data = await fetchFoodById(id);
       setRecipe(data);
@@ -176,17 +175,16 @@ function RecipeInProgress() {
               allowFullScreen
               title="Embedded youtube"
             />
-
-            <DrinksRecommendationCarousel />
+            <hr />
             <button
-              data-testid="start-recipe-btn"
+              data-testid="finish-recipe-btn"
               type="button"
-              className="button-start-recipe"
               // onClick={ handleClickStart }
             >
-              { recipeStarted
+              Finish
+              {/* { recipeStarted
                 ? 'Continue Recipe'
-                : 'Start Recipe'}
+                : 'Start Recipe'} */}
             </button>
           </div>
         )}
@@ -194,4 +192,4 @@ function RecipeInProgress() {
   );
 }
 
-export default RecipeInProgress;
+export default FoodRecipeInProgress;

@@ -130,6 +130,7 @@ function DrinksDetails({ recipe }) {
         src={ recipe.strDrinkThumb }
         alt={ recipe.strDrink }
         data-testid="recipe-photo"
+        style={ { height: '360px' } }
       />
       <button
         data-testid="share-btn"
