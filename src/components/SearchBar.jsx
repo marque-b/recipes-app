@@ -16,13 +16,16 @@ function SearchBar() {
   const history = useHistory();
 
   useEffect(() => {
-    const { meals } = searchResults;
     const { drinks } = searchResults;
-    if (meals !== undefined && meals !== null && meals.length === 1) {
-      history.push(`/meals/${meals[0].idMeal}`);
-    }
     if (drinks !== undefined && drinks !== null && drinks.length === 1) {
       history.push(`/drinks/${drinks[0].idDrink}`);
+    }
+  }, [history, searchResults]);
+
+  useEffect(() => {
+    const { meals } = searchResults;
+    if (meals !== undefined && meals !== null && meals.length === 1) {
+      history.push(`/meals/${meals[0].idMeal}`);
     }
   }, [searchResults, history]);
 
