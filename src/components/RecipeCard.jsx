@@ -38,7 +38,7 @@ function RecipeCard({ param, index }) {
                   alt={ strDrink }
                   data-testid={ `${index}-card-img` }
                   style={ { width: '150px' } }
-                  // Tamanho da imagem limitado durante desenvolvimento
+                  // Tamanho da imagem limitado
                 />
                 <p data-testid={ `${index}-card-name` }>
                   { strDrink }
