@@ -21,6 +21,12 @@ export async function fetchFoodByInitialLetter(initial) {
   return data;
 }
 
+export async function fetchFoodById(id) {
+  const response = await fetch(`www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const data = await response.json();
+  return data;
+}
+
 export async function fetchDrinkRecipeByName(name) {
   const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`);
   const data = await response.json();

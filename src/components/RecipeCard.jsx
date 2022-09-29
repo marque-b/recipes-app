@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
 function RecipeCard({ param, index }) {
-  // function RecipeCard({ param }, { children }) {
   const { strMeal, strMealThumb, strDrink, strDrinkThumb } = param;
 
   const { pathname } = useLocation();

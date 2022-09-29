@@ -130,6 +130,7 @@ function MealsDetails({ recipe }) {
         src={ recipe.strMealThumb }
         alt={ recipe.strMeal }
         data-testid="recipe-photo"
+        style={ { height: '360px' } }
       />
       <button
         data-testid="share-btn"

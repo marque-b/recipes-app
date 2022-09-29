@@ -16,8 +16,7 @@ function SearchBar() {
   const history = useHistory();
 
   useEffect(() => {
-    const { meals } = searchResults;
-    const { drinks } = searchResults;
+    const { meals, drinks } = searchResults;
     if (meals !== undefined && meals !== null && meals.length === 1) {
       history.push(`/meals/${meals[0].idMeal}`);
     }
@@ -73,6 +72,7 @@ function SearchBar() {
               Search recipes:
               <input
                 type="text"
+                value={ searchInput }
                 id="search-bar"
                 data-testid="search-input"
                 onChange={ ({ target }) => setSearchInput(target.value) }
