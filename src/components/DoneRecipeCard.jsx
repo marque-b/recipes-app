@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipeCard({ param, index }) {
-  const { name, nationality, tags, image, doneDate } = param;
+  const { name, nationality, tags, image,
+    doneDate, category, type, alcoholicOrNot } = param;
 
   return (
     <div>
@@ -22,7 +23,8 @@ function DoneRecipeCard({ param, index }) {
             </p>
             <p data-testid={ `${index}-horizontal-top-text` }>
 
-              { nationality}
+              { `${nationality} - ${category} ` }
+              { type === 'drink' && alcoholicOrNot}
             </p>
             <p data-testid={ `${index}-horizontal-done-date` }>
               { doneDate }
@@ -32,8 +34,13 @@ function DoneRecipeCard({ param, index }) {
             data-testid={ `${index}-horizontal-share-btn` }
             type="button"
             className="share-button"
+            src={ shareIcon }
+            alt="share button"
           >
-            <img src={ shareIcon } alt="share button" />
+            <img
+              src={ shareIcon }
+              alt="share button"
+            />
           </button>
 
           <div>
