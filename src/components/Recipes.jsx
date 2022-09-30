@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppReceitasContext from '../context/AppReceitasContext';
 import RecipeCard from './RecipeCard';
+import FilterCategories from './FilterCategories';
 
 function Recipes() {
   const {
@@ -9,13 +10,11 @@ function Recipes() {
     setMeals,
     drinks,
     setDrinks,
-    mealsCategories,
     setMealsCategories,
-    dinksCategories,
     setDrinksCategories,
   } = useContext(AppReceitasContext);
-  const { pathname } = useLocation();
 
+  const { pathname } = useLocation();
   const numberOfRecipes = 12;
   const numberOfCategories = 5;
 
@@ -53,6 +52,7 @@ function Recipes() {
 
   return (
     <div>
+      <FilterCategories />
       <div>
         {pathname === '/meals'
           ? meals.map((meal, i) => (
@@ -62,33 +62,6 @@ function Recipes() {
             <RecipeCard key={ i } param={ drink } index={ i } />
           ))}
       </div>
-
-      <div>
-
-        {pathname === '/meals'
-          ? mealsCategories.map((category, is) => (
-            <button
-              key={ is }
-              type="button"
-              data-testid={ `${category.strCategory}-category-filter` }
-            >
-              {category.strCategory}
-            </button>
-          ))
-          : dinksCategories.map((category, i) => (
-            <button
-              key={ i }
-              type="button"
-              data-testid={ `${category.strCategory}-category-filter` }
-            >
-              {category.strCategory}
-            </button>
-          ))}
-      </div>
-
-      {/* <button type= "button" data-testid="All-category-filter">
-       ALL
-      </button> */}
     </div>
   );
 }
