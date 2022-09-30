@@ -22,9 +22,14 @@ function FoodRecipeInProgress() {
     getRecipe();
   }, [id]);
 
-  const handleCrossIngredient = (event) => {
-    // text-decoration: line-through;
-    console.log(event);
+  const handleCrossIngredient = ({ target }) => {
+    const ingredientNode = target.parentNode;
+    const crossLine = ingredientNode.style.textDecoration;
+    if (crossLine !== 'line-through') {
+      ingredientNode.style.textDecoration = 'line-through';
+    } else {
+      ingredientNode.style.textDecoration = '';
+    }
   };
 
   return (
@@ -79,8 +84,8 @@ function FoodRecipeInProgress() {
                       id={ `${i}-ingredient-checkbox` }
                       onChange={ handleCrossIngredient }
                     />
+                    {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
                   </label>
-                  {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
                 </li>)
               ))}
             </ul>
