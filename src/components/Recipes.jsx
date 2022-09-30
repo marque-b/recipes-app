@@ -10,13 +10,11 @@ function Recipes() {
     setMeals,
     drinks,
     setDrinks,
-
     setMealsCategories,
-
     setDrinksCategories,
   } = useContext(AppReceitasContext);
-  const { pathname } = useLocation();
 
+  const { pathname } = useLocation();
   const numberOfRecipes = 12;
   const numberOfCategories = 5;
 
