@@ -40,7 +40,7 @@ function DrinksDetails({ recipe }) {
     setFavoriteSelected(isFavorite());
   }, []);
 
-  if (!recipe) return '';
+  // if (!recipe) return '';
 
   const handleClickStart = () => {
     history.push(`/drinks/${recipe.idDrink}/in-progress`);
