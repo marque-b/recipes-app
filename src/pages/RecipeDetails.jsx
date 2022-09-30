@@ -22,7 +22,7 @@ function RecipeDetails() {
         .then((response) => response.json())
         .then((json) => setRecipes(json))
         .then(() => setIsLoading(false));
-    } else if (history.location.pathname.includes('drinks')) {
+    } else {
       fetch(`${APIDrinks}${id}`)
         .then((response) => response.json())
         .then((json) => setRecipes(json))

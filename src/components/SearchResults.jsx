@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import AppReceitasContext from '../context/AppReceitasContext';
 import RecipeCard from './RecipeCard';
+import FilterCategories from './FilterCategories';
 
 function SearchResults() {
   const { searchResults } = useContext(AppReceitasContext);
@@ -12,6 +13,7 @@ function SearchResults() {
 
   return (
     <div>
+      <FilterCategories />
       <section id="meal-recipes-section">
         { meals !== undefined && meals !== null
           ? meals.slice(0, RESULTS_PER_PAGE)

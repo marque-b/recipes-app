@@ -9,6 +9,9 @@ function Provider({ children }) {
   const [searchResults, setSearchResults] = useState([]);
   const [recommendedDrinks, setRecommendedDrinks] = useState({ drinks: [] });
   const [recommendedMeals, setRecommendedMeals] = useState({ meals: [] });
+  const [mealsCategories, setMealsCategories] = useState([]);
+  const [dinksCategories, setDrinksCategories] = useState([]);
+  const [currentCategoryFilter, setCurrentCategoryFilter] = useState([]);
 
   const contextValue = {
     user,
@@ -23,6 +26,12 @@ function Provider({ children }) {
     setRecommendedDrinks,
     recommendedMeals,
     setRecommendedMeals,
+    mealsCategories,
+    setMealsCategories,
+    dinksCategories,
+    setDrinksCategories,
+    currentCategoryFilter,
+    setCurrentCategoryFilter,
   };
 
   return (
