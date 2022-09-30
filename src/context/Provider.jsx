@@ -11,6 +11,7 @@ function Provider({ children }) {
   const [recommendedMeals, setRecommendedMeals] = useState({ meals: [] });
   const [mealsCategories, setMealsCategories] = useState([]);
   const [dinksCategories, setDrinksCategories] = useState([]);
+  const [currentCategoryFilter, setCurrentCategoryFilter] = useState([]);
 
   const contextValue = {
     user,
@@ -29,6 +30,8 @@ function Provider({ children }) {
     setMealsCategories,
     dinksCategories,
     setDrinksCategories,
+    currentCategoryFilter,
+    setCurrentCategoryFilter,
   };
 
   return (
