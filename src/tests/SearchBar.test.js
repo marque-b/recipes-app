@@ -90,6 +90,7 @@ describe('Search Bar tests', () => {
     const nameSearchRadio = screen.getByTestId(NAME_RADIO);
 
     userEvent.click(nameSearchRadio);
+
     userEvent.type(searchInput, 'Arrabiata');
     userEvent.click(executeSearchButton);
 

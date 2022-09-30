@@ -76,6 +76,7 @@ function SearchBar() {
               Search recipes:
               <input
                 type="text"
+                value={ searchInput }
                 id="search-bar"
                 data-testid="search-input"
                 onChange={ ({ target }) => setSearchInput(target.value) }

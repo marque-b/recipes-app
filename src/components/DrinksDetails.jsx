@@ -80,6 +80,7 @@ function DrinksDetails({ recipe }) {
         src={ recipe.strDrinkThumb }
         alt={ recipe.strDrink }
         data-testid="recipe-photo"
+        style={ { height: '360px' } }
       />
       <button
         data-testid="share-btn"
@@ -113,17 +114,13 @@ function DrinksDetails({ recipe }) {
         {recipe.strAlcoholic}
       </p>
       <ul>
-        { INGREDIENTS_AND_MEASURE.map((pair, i) => (
-          recipe[pair.ingredients] === null
-            ? ''
-            : (
-              <li
-                data-testid={ `${i}-ingredient-name-and-measure` }
-                key={ pair.ingredients }
-              >
-                {`${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
-              </li>
-            )
+        { ingredientsAndMeasure.map((pair, i) => (
+          recipe[pair.ingredients] !== null
+          &&  
+          && (
+            <li data-testid={ `${i}-ingredient-name-and-measure` }>
+              {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
+            </li>)
         ))}
       </ul>
       <p
