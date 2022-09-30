@@ -116,7 +116,7 @@ function MealsDetails({ recipe }) {
         {recipe.strCategory}
       </p>
       <ul>
-        { ingredientsAndMeasure.map((pair, i) => (
+        { INGREDIENTS_AND_MEASURE.map((pair, i) => (
           recipe[pair.ingredients] !== null && recipe[pair.ingredients].length > 1
         && (
           <li data-testid={ `${i}-ingredient-name-and-measure` }>
