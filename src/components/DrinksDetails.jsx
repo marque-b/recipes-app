@@ -161,16 +161,12 @@ function DrinksDetails({ recipe }) {
       </p>
       <ul>
         { ingredientsAndMeasure.map((pair, i) => (
-          recipe[pair.ingredients] === null
-            ? ''
-            : (
-              <li
-                data-testid={ `${i}-ingredient-name-and-measure` }
-                key={ pair.ingredients }
-              >
-                {`${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
-              </li>
-            )
+          recipe[pair.ingredients] !== null
+          && recipe[pair.ingredients] !== undefined
+          && (
+            <li data-testid={ `${i}-ingredient-name-and-measure` }>
+              {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
+            </li>)
         ))}
       </ul>
       <p

@@ -104,6 +104,11 @@ function FoodRecipeInProgress() {
     getRecipe();
   }, [id]);
 
+  const handleCrossIngredient = (event) => {
+    // text-decoration: line-through;
+    console.log(event);
+  };
+
   return (
     <div>
       { loading
@@ -153,7 +158,8 @@ function FoodRecipeInProgress() {
                   <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
                     <input
                       type="checkbox"
-                      id="step"
+                      id={ `${i}-ingredient-checkbox` }
+                      onChange={ handleCrossIngredient }
                     />
                   </label>
                   {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}

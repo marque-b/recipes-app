@@ -163,13 +163,11 @@ function MealsDetails({ recipe }) {
       </p>
       <ul>
         { ingredientsAndMeasure.map((pair, i) => (
-          recipe[pair.ingredients] === ''
-            ? ''
-            : (
-              <li data-testid={ `${i}-ingredient-name-and-measure` }>
-                {`${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
-              </li>
-            )
+          recipe[pair.ingredients] !== null && recipe[pair.ingredients].length > 1
+        && (
+          <li data-testid={ `${i}-ingredient-name-and-measure` }>
+            {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
+          </li>)
         ))}
       </ul>
       <p

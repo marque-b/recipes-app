@@ -104,6 +104,8 @@ function DrinkRecipeInProgress() {
     getRecipe();
   }, [id]);
 
+  console.log(recipe);
+
   return (
     <div>
       { loading
@@ -148,6 +150,7 @@ function DrinkRecipeInProgress() {
             <ul>
               { ingredientsAndMeasure.map((pair, i) => (
                 recipe[pair.ingredients] !== null
+                && recipe[pair.ingredients] !== undefined
                 && (
                   <li data-testid={ `${i}-ingredient-name-and-measure` }>
                     <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
