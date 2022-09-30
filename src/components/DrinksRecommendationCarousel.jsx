@@ -3,10 +3,10 @@ import Carousel from 'react-bootstrap/Carousel';
 import AppReceitasContext from '../context/AppReceitasContext';
 import './RecommendationCarousel.css';
 
+const numberLimit = 6;
 function DrinksRecommendationCarousel() {
   const { recommendedDrinks } = useContext(AppReceitasContext);
   if (!recommendedDrinks.drinks || recommendedDrinks.drinks.length === 0) return '';
-  const numberLimit = 6;
   const top6RecommendedDrinks = recommendedDrinks.drinks.slice(0, numberLimit);
 
   return (

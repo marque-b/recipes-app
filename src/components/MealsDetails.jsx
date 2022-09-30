@@ -40,7 +40,7 @@ function MealsDetails({ recipe }) {
     setFavoriteSelected(isFavorite());
   }, []);
 
-  if (!recipe) return '';
+  // if (!recipe) return '';
 
   const handleClickStart = () => {
     history.push(`/meals/${recipe.idMeal}/in-progress`);
