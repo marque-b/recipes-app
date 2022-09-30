@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipeCard({ param, index }) {
-  const { name, nationality, tags, image,
+  const [copyText, setCopyText] = useState('');
+  const { id, name, nationality, tags, image,
     doneDate, category, type, alcoholicOrNot } = param;
+
+  const copyToClipboard = () => {
+    switch (type) {
+    case 'meal':
+      copy(`http://localhost:3000/meals/${id}`);
+      break;
+    case 'drink':
+      copy(`http://localhost:3000/drinks/${id}`);
+      break;
+    default:
+      break;
+    }
+    setCopyText('Link copied!');
+  };
 
   return (
     <div>
@@ -30,12 +46,14 @@ function DoneRecipeCard({ param, index }) {
               { doneDate }
             </p>
           </div>
+          <p>{ copyText }</p>
           <button
             data-testid={ `${index}-horizontal-share-btn` }
             type="button"
             className="share-button"
             src={ shareIcon }
             alt="share button"
+            onClick={ copyToClipboard }
           >
             <img
               src={ shareIcon }
