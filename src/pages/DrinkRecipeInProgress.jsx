@@ -22,7 +22,15 @@ function DrinkRecipeInProgress() {
     getRecipe();
   }, [id]);
 
-  console.log(recipe);
+  const handleCrossIngredient = ({ target }) => {
+    const ingredientNode = target.parentNode;
+    const crossLine = ingredientNode.style.textDecoration;
+    if (crossLine !== 'line-through') {
+      ingredientNode.style.textDecoration = 'line-through';
+    } else {
+      ingredientNode.style.textDecoration = '';
+    }
+  };
 
   return (
     <div>
@@ -76,6 +84,7 @@ function DrinkRecipeInProgress() {
                       <input
                         type="checkbox"
                         id="step"
+                        onChange={ handleCrossIngredient }
                       />
                     </label>
                     {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
