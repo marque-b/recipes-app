@@ -114,9 +114,9 @@ function DrinksDetails({ recipe }) {
         {recipe.strAlcoholic}
       </p>
       <ul>
-        { ingredientsAndMeasure.map((pair, i) => (
+        { INGREDIENTS_AND_MEASURE.map((pair, i) => (
           recipe[pair.ingredients] !== null
-          &&  
+          && recipe[pair.ingredients] !== undefined
           && (
             <li data-testid={ `${i}-ingredient-name-and-measure` }>
               {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
