@@ -25,10 +25,23 @@ function FoodRecipeInProgress() {
   const handleCrossIngredient = ({ target }) => {
     const ingredientNode = target.parentNode;
     const crossLine = ingredientNode.style.textDecoration;
+    const data = localStorage.getItem('inProgressRecipe') ?? id;
+    const crossedItems = JSON.parse(data);
+    // console.log(ingredientNode.textContent);
+
     if (crossLine !== 'line-through') {
       ingredientNode.style.textDecoration = 'line-through';
+      target.checked = true;
+      console.log(crossedItems);
+      localStorage
+        .setItem('inProgressRecipe', JSON
+          .stringify([
+            ...crossedItems,
+            ingredientNode.textContent,
+          ]));
     } else {
       ingredientNode.style.textDecoration = '';
+      target.checked = false;
     }
   };
 
