@@ -7,7 +7,15 @@
 }
 
 .search-input {
+  color: #797d86;
+  font-family: Epilogue , sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  height: 40px;
+  line-height: 14px;
   width: 100%;
+
 }
 
 .inputs-container {
