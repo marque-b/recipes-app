@@ -1,0 +1,23 @@
+.loginScreen {
+  align-items: flex-end;
+  background-image: url('../images/loginBackground.svg');
+  background-repeat: no-repeat;
+  display: flex;
+  height: 100%;
+  position: absolute;
+}
+
+.loginContainer {
+  display: flex;
+  margin-bottom: 40px;
+  padding: 0 30px;
+}
+
+.loginInput {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.submitLogin {
+  width: 100%;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
 import renderWithRouter from './helper/renderWithRouter';
 import App from '../App';
@@ -11,6 +12,7 @@ const INSTRUCTIONS = 'instructions';
 const FINISH_RECIPE_BTN = 'finish-recipe-btn';
 const FAVORITE_BTN = 'favorite-btn';
 const SHARE_BTN = 'share-btn';
+const DRINK_URL = '/drinks/178319/in-progress';
 
 beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({
@@ -20,7 +22,7 @@ beforeEach(() => {
 
 describe(('Food recipe in progress page test'), () => {
   it(('The recipe specs are rendered'), async () => {
-    renderWithRouter(<App />, '/drinks/178319/in-progress');
+    renderWithRouter(<App />, DRINK_URL);
 
     await waitFor(() => {
       const recipeImg = screen.getByTestId(RECIPE_PHOTO);
@@ -38,7 +40,7 @@ describe(('Food recipe in progress page test'), () => {
   });
 
   it(('Favorite and Share buttons are rendered'), async () => {
-    renderWithRouter(<App />, '/drinks/178319/in-progress');
+    renderWithRouter(<App />, DRINK_URL);
 
     await waitFor(() => {
       const favoriteBtn = screen.getByTestId(FAVORITE_BTN);
@@ -46,6 +48,37 @@ describe(('Food recipe in progress page test'), () => {
 
       expect(favoriteBtn).toBeInTheDocument();
       expect(shareBtn).toBeInTheDocument();
+
+      userEvent.click(favoriteBtn);
+      userEvent.click(favoriteBtn);
+    });
+  });
+  test('Steps are checked with a click, finish button redirects', async () => {
+    renderWithRouter(<App />, DRINK_URL);
+
+    await waitFor(() => {
+      const checkboxes = screen.getAllByRole('checkbox');
+      const finishBtn = screen.getByTestId(FINISH_RECIPE_BTN);
+
+      userEvent.click(checkboxes[0]);
+      userEvent.click(checkboxes[0]);
+      userEvent.click(finishBtn);
+    });
+  });
+  it('Share button copies the recipe url', async () => {
+    renderWithRouter(<App />, DRINK_URL);
+
+    Object.assign(window.navigator, {
+      clipboard: {
+        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+      },
+    });
+
+    await waitFor(() => {
+      const shareBtn = screen.getByTestId(SHARE_BTN);
+
+      userEvent.click(shareBtn);
+      expect(window.navigator.clipboard.writeText).toHaveBeenCalled();
     });
   });
 });

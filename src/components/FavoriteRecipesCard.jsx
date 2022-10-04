@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
+import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import AppReceitasContext from '../context/AppReceitasContext';
 
-function DoneRecipeCard({ param, index }) {
+function FavoriteRecipesCard({ param, index }) {
   const [copyText, setCopyText] = useState('');
-  const { id, name, nationality, tags, image,
+
+  const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+  const favoriteRecipes = JSON.parse(favorites);
+
+  const { setFavoriteRemoved } = useContext(AppReceitasContext);
+
+  const handleClickFavorites = () => {
+    const removeFavorite = favoriteRecipes
+      .filter((favoriteRecipe) => favoriteRecipe.id !== param.id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
+    setFavoriteRemoved(favoriteRecipes);
+  };
+
+  const { id, name, nationality, image,
     doneDate, category, type, alcoholicOrNot } = param;
 
   const copyToClipboard = () => {
@@ -35,6 +50,7 @@ function DoneRecipeCard({ param, index }) {
               style={ { width: '150px' } }
               // Tamanho da imagem limitado
             />
+
             <p data-testid={ `${index}-horizontal-name` }>
               { name }
             </p>
@@ -62,25 +78,26 @@ function DoneRecipeCard({ param, index }) {
             />
           </button>
 
-          <div>
-            { tags.map((tag) => (
-              <p
-                key={ tag }
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-              >
-                {tag}
-              </p>
-            ))}
-          </div>
+          <button
+            type="button"
+            className="favorite-button"
+            onClick={ handleClickFavorites }
+          >
+            <img
+              data-testid={ `${index}-horizontal-favorite-btn` }
+              alt="heart white or black"
+              src={ blackHeartIcon }
+            />
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-DoneRecipeCard.propTypes = {
+FavoriteRecipesCard.propTypes = {
   param: PropTypes.objectOf(PropTypes.string).isRequired,
   index: PropTypes.number.isRequired,
 };
 
-export default DoneRecipeCard;
+export default FavoriteRecipesCard;

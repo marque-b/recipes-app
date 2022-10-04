@@ -1,19 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+// import copy from 'clipboard-copy';
 // import DrinksRecommendationCarousel from '../components/DrinksRecommendationCarousel';
 import { fetchDrinkById } from '../services';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { INGREDIENTS_AND_MEASURE } from '../services/consts';
 
 function DrinkRecipeInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [copyText, setCopyText] = useState('');
+  const [favoriteSelected, setFavoriteSelected] = useState(null);
 
   const { pathname } = useLocation();
   const id = pathname.split('/')[2];
 
+  const history = useHistory();
+
+  const handleFinishRecipe = () => {
+    history.push('/done-recipes');
+  };
+
+  const isFavorite = () => {
+    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const favoriteRecipes = JSON.parse(favorites);
+    const checkResult = favoriteRecipes
+      .some((favoriteRecipe) => favoriteRecipe.id === recipe.idDrink);
+    return checkResult;
+  };
+
+  const copyToClipboard = () => {
+    if (recipe.idDrink) {
+      // copy(`http://localhost:3000/drinks/${id}`);
+      window.navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+    }
+    setCopyText('Link copied!');
+  };
+
+  const handleClickFavorites = () => {
+    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const favoriteRecipes = JSON.parse(favorites);
+    if (isFavorite()) {
+      const removeFavorite = favoriteRecipes
+        .filter((favoriteRecipe) => favoriteRecipe.id !== recipe.idDrink);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
+      setFavoriteSelected(false);
+    } else {
+      favoriteRecipes.push({
+        id: recipe.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic,
+        name: recipe.strDrink,
+        image: recipe.strDrinkThumb,
+      });
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+      setFavoriteSelected(true);
+    }
+  };
+
   useEffect(() => {
+    setFavoriteSelected(isFavorite());
     const getRecipe = async () => {
       const data = await fetchDrinkById(id);
       setRecipe(data);
@@ -21,6 +71,8 @@ function DrinkRecipeInProgress() {
     };
     getRecipe();
   }, [id]);
+
+  useEffect(() => setFavoriteSelected(isFavorite()));
 
   const handleCrossIngredient = ({ target }) => {
     const ingredientNode = target.parentNode;
@@ -48,7 +100,8 @@ function DrinkRecipeInProgress() {
               data-testid="share-btn"
               type="button"
               className="share-button"
-              // onClick={ copyToClipboard }
+              src={ shareIcon }
+              onClick={ copyToClipboard }
             >
               <img src={ shareIcon } alt="share button" />
             </button>
@@ -57,11 +110,15 @@ function DrinkRecipeInProgress() {
               data-testid="favorite-btn"
               type="button"
               className="favorite-button"
-
+              onClick={ () => handleClickFavorites() }
+              src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
             >
-              <img src={ whiteHeartIcon } alt="favorite button" />
+              <img
+                src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
+                alt="favorite button"
+              />
             </button>
-            {/* <p>{ copyText }</p> */}
+            <p>{ copyText }</p>
 
             <h1
               data-testid="recipe-title"
@@ -80,14 +137,17 @@ function DrinkRecipeInProgress() {
                 && recipe[pair.ingredients].length > 1
                 && (
                   <li data-testid={ `${i}-ingredient-name-and-measure` }>
-                    <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
+                    <label
+                      htmlFor={ `${i}-ingredient-checkbox` }
+                      data-testid={ `${i}-ingredient-step` }
+                    >
                       <input
                         type="checkbox"
-                        id="step"
+                        id={ `${i}-ingredient-checkbox` }
                         onChange={ handleCrossIngredient }
                       />
+                      {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
                     </label>
-                    {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
                   </li>)
               ))}
             </ul>
@@ -114,7 +174,7 @@ function DrinkRecipeInProgress() {
             <button
               data-testid="finish-recipe-btn"
               type="button"
-              // onClick={ handleClickStart }
+              onClick={ handleFinishRecipe }
             >
               Finish
               {/* { recipeStarted

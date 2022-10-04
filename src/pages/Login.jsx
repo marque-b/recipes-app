@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import '../styles/Login.css';
+import { Col, Row } from 'react-bootstrap';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -37,38 +41,45 @@ function Login() {
   };
 
   return (
-    <form>
-      <label htmlFor="email">
-        Email
-        <input
-          type="email"
-          data-testid="email-input"
-          onChange={ handleEmailChange }
-          value={ email }
-          name="email"
-        />
-      </label>
-
-      <label htmlFor="password">
-        Senha
-        <input
-          type="password"
-          data-testid="password-input"
-          onChange={ handlePasswordChange }
-          value={ password }
-          name="password"
-        />
-      </label>
-
-      <button
-        type="submit"
-        data-testid="login-submit-btn"
-        disabled={ buttonDisabled }
-        onClick={ handleClick }
-      >
-        Entrar
-      </button>
-    </form>
+    <Container className="loginScreen">
+      <div className="loginContainer">
+        <Col>
+          <label htmlFor="email" className="loginInput">
+            <input
+              className="loginInput"
+              type="email"
+              data-testid="email-input"
+              placeholder="Email"
+              onChange={ handleEmailChange }
+              value={ email }
+              name="email"
+            />
+          </label>
+          <label htmlFor="password" className="loginInput">
+            <input
+              className="loginInput"
+              type="password"
+              data-testid="password-input"
+              placeholder="Senha"
+              onChange={ handlePasswordChange }
+              value={ password }
+              name="password"
+            />
+          </label>
+          <Button
+            className="submitLogin"
+            size="lg"
+            variant="warning"
+            type="submit"
+            data-testid="login-submit-btn"
+            disabled={ buttonDisabled }
+            onClick={ handleClick }
+          >
+            Entrar
+          </Button>
+        </Col>
+      </div>
+    </Container>
   );
 }
 

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import AppReceitasContext from '../context/AppReceitasContext';
 import RecipeCard from './RecipeCard';
 import FilterCategories from './FilterCategories';
+import '../styles/Recipes.css';
 
 function Recipes() {
   const {
@@ -53,7 +54,7 @@ function Recipes() {
   return (
     <div>
       <FilterCategories />
-      <div>
+      <div className="recipes-container">
         {pathname === '/meals'
           ? meals.map((meal, i) => (
             <RecipeCard key={ i } param={ meal } index={ i } />

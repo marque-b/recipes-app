@@ -5,6 +5,7 @@ import renderWithRouter from './helper/renderWithRouter';
 import DoneRecipes from '../pages/DoneRecipes';
 
 describe('tests done recipes page', () => {
+  const recipeTag = '1-recipe-card';
   const doneRecipes = [
     {
       id: '52771',
@@ -37,7 +38,7 @@ describe('tests done recipes page', () => {
   it('should have recipes on screen', () => {
     renderWithRouter(<DoneRecipes />);
     const recipe = screen.getByTestId('0-recipe-card');
-    const recipe2 = screen.getByTestId('1-recipe-card');
+    const recipe2 = screen.getByTestId(recipeTag);
     expect(recipe).toBeInTheDocument();
     expect(recipe2).toBeInTheDocument();
   });
@@ -47,19 +48,24 @@ describe('tests done recipes page', () => {
     const drinkButton = screen.getByTestId('filter-by-drink-btn');
     const allButton = screen.getByTestId('filter-by-all-btn');
     const recipe = screen.getByTestId('0-recipe-card');
-    const recipe2 = screen.getByTestId('1-recipe-card');
+    const recipe2 = screen.getByTestId(recipeTag);
 
     userEvent.click(mealButton);
     expect(recipe).toBeInTheDocument();
     expect(recipe2).not.toBeInTheDocument();
 
     userEvent.click(allButton);
-    const recipe2AfterClick = screen.getByTestId('1-recipe-card');
+    const recipe2AfterClick = screen.getByTestId(recipeTag);
     expect(recipe).toBeInTheDocument();
     expect(recipe2AfterClick).toBeInTheDocument();
 
     userEvent.click(drinkButton);
     expect(recipe).toBeInTheDocument();
     expect(recipe2AfterClick).not.toBeInTheDocument();
+  });
+  it('should have a working share button', async () => {
+    renderWithRouter(<DoneRecipes />);
+    const shareBtn = await screen.findByTestId('0-horizontal-share-btn');
+    expect(shareBtn).toBeInTheDocument();
   });
 });

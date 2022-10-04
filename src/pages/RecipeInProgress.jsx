@@ -1,26 +1,105 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+// import copy from 'clipboard-copy';
 // import DrinksRecommendationCarousel from '../components/DrinksRecommendationCarousel';
 import { fetchFoodById } from '../services';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { INGREDIENTS_AND_MEASURE } from '../services/consts';
 
 function FoodRecipeInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [copyText, setCopyText] = useState('');
+  const [favoriteSelected, setFavoriteSelected] = useState(null);
+  // const [recipeFinished, setRecipeFinished] = useState(false);
+  // const [recipeChecklist, setRecipeChecklist] = useState({
+  //  totalIngredients: 0,
+  //  checkedIngredients: 0,
+  // });
+
+  const history = useHistory();
+
+  const handleFinishRecipe = () => {
+    history.push('/done-recipes');
+  };
 
   const { pathname } = useLocation();
   const id = pathname.split('/')[2];
 
+  // const handleRecipeCheckList = () => {
+  //  const { totalIngredients, checkedIngredients } = recipeChecklist;
+  //  if (totalIngredients === checkedIngredients) {
+  //    return setRecipeFinished(true);
+  //  }
+  //  setRecipeFinished(false);
+  // };
+
+  // const getRecipeChecklist = (data) => {
+  //  let counter = 0;
+  //  INGREDIENTS_AND_MEASURE.forEach((pair) => {
+  //    if (data[pair.ingredients].length !== undefined
+  //      && data[pair.ingredients].length !== 0) {
+  //      counter += 1;
+  //    }
+  //  });
+  //  console.log('getRecipeChecklist');
+  //  setRecipeChecklist((prevState) => ({ ...prevState, totalIngredients: counter }));
+  // };
+
+  const isFavorite = () => {
+    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const favoriteRecipes = JSON.parse(favorites);
+    const checkResult = favoriteRecipes
+      .some((favoriteRecipe) => favoriteRecipe.id === recipe.idMeal);
+    return checkResult;
+  };
+
+  const copyToClipboard = () => {
+    if (recipe.idMeal) {
+      // copy(`http://localhost:3000/meals/${id}`);
+      window.navigator.clipboard.writeText(`http://localhost:3000/meals/${id}`);
+    }
+    setCopyText('Link copied!');
+  };
+
+  const handleClickFavorites = () => {
+    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const favoriteRecipes = JSON.parse(favorites);
+    if (isFavorite()) {
+      const removeFavorite = favoriteRecipes
+        .filter((favoriteRecipe) => favoriteRecipe.id !== recipe.idMeal);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
+      setFavoriteSelected(false);
+    } else {
+      favoriteRecipes.push({
+        id: recipe.idMeal,
+        type: 'meal',
+        nationality: recipe.strArea,
+        category: recipe.strCategory,
+        alcoholicOrNot: '',
+        name: recipe.strMeal,
+        image: recipe.strMealThumb,
+      });
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+      setFavoriteSelected(true);
+    }
+  };
+
   useEffect(() => {
+    setFavoriteSelected(isFavorite());
     const getRecipe = async () => {
       const data = await fetchFoodById(id);
       setRecipe(data);
+      // getRecipeChecklist(data); QUEBRANDO O TESTE
       setLoading(false);
     };
     getRecipe();
-  }, [id]);
+  }, []);
+
+  useEffect(() => setFavoriteSelected(isFavorite()));
+  // useEffect(() => handleRecipeCheckList(), [recipeChecklist]);
 
   const handleCrossIngredient = ({ target }) => {
     const ingredientNode = target.parentNode;
@@ -61,7 +140,8 @@ function FoodRecipeInProgress() {
               data-testid="share-btn"
               type="button"
               className="share-button"
-              // onClick={ copyToClipboard }
+              src={ shareIcon }
+              onClick={ copyToClipboard }
             >
               <img src={ shareIcon } alt="share button" />
             </button>
@@ -70,11 +150,15 @@ function FoodRecipeInProgress() {
               data-testid="favorite-btn"
               type="button"
               className="favorite-button"
-
+              onClick={ () => handleClickFavorites() }
+              src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
             >
-              <img src={ whiteHeartIcon } alt="favorite button" />
+              <img
+                src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
+                alt="favorite button"
+              />
             </button>
-            {/* <p>{ copyText }</p> */}
+            <p>{ copyText }</p>
 
             <h1
               data-testid="recipe-title"
@@ -90,8 +174,14 @@ function FoodRecipeInProgress() {
               { INGREDIENTS_AND_MEASURE.map((pair, i) => (
                 recipe[pair.ingredients] !== null && recipe[pair.ingredients].length > 1
               && (
-                <li data-testid={ `${i}-ingredient-name-and-measure` }>
-                  <label htmlFor="step" data-testid={ `${i}-ingredient-step` }>
+                <li
+                  data-testid={ `${i}-ingredient-name-and-measure` }
+                  key={ i }
+                >
+                  <label
+                    htmlFor={ `${i}-ingredient-checkbox` }
+                    data-testid={ `${i}-ingredient-step` }
+                  >
                     <input
                       type="checkbox"
                       id={ `${i}-ingredient-checkbox` }
@@ -125,7 +215,9 @@ function FoodRecipeInProgress() {
             <button
               data-testid="finish-recipe-btn"
               type="button"
-              // onClick={ handleClickStart }
+              className="button-finish-recipe"
+              // disabled={ !recipeFinished }
+              onClick={ handleFinishRecipe }
             >
               Finish
               {/* { recipeStarted

@@ -20,7 +20,10 @@ function MealsDetails({ recipe }) {
   const isFavorite = () => {
     const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
     const favoriteRecipes = JSON.parse(favorites);
-    return favoriteRecipes.some((favoriteRecipe) => favoriteRecipe.id === recipe.idMeal);
+    const checkResult = favoriteRecipes
+      .some((favoriteRecipe) => favoriteRecipe.id === recipe.idMeal);
+    console.log(checkResult);
+    return checkResult;
   };
 
   useEffect(() => {
@@ -119,7 +122,10 @@ function MealsDetails({ recipe }) {
         { INGREDIENTS_AND_MEASURE.map((pair, i) => (
           recipe[pair.ingredients] !== null && recipe[pair.ingredients].length > 1
         && (
-          <li data-testid={ `${i}-ingredient-name-and-measure` }>
+          <li
+            data-testid={ `${i}-ingredient-name-and-measure` }
+            key={ i }
+          >
             {` ${recipe[pair.ingredients]} - ${recipe[pair.measure]}  `}
           </li>)
         ))}
