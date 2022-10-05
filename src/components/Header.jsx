@@ -5,10 +5,10 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 import mealTitleIcon from '../images/mealTitleIcon.svg';
+import drinkTitleIcon from '../images/drinkTitleIcon.svg';
 import '../styles/Header.css';
 
 function Header() {
-  // Verifica o path para renderizar o título no header
   const path = useHistory().location.pathname;
   const title = () => {
     switch (path) {
@@ -26,7 +26,6 @@ function Header() {
     }
   };
 
-  // Habilita e desabilita a Search Bar
   const [showSearchBar, setShowSearchBar] = useState(false);
   const handleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
@@ -57,7 +56,8 @@ function Header() {
           </Button>)}
       </div>
       <section className="title-section">
-        <img src={ mealTitleIcon } alt="" />
+        {path === '/meals' && <img src={ mealTitleIcon } alt="Meals title icon" />}
+        {path === '/drinks' && <img src={ drinkTitleIcon } alt="Drinks title icon" />}
         <h1 className="page-title" data-testid="page-title">
           {title()}
         </h1>

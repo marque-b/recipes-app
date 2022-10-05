@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import drinkIcon from '../images/drinkIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
-import './Footer.css';
+import drinkTitleIcon from '../images/drinkTitleIcon.svg';
+import mealTitleIcon from '../images/mealTitleIcon.svg';
+import '../styles/Footer.css';
 
 function Footer() {
   return (
@@ -14,7 +14,7 @@ function Footer() {
         to="/drinks"
       >
         <img
-          src={ drinkIcon }
+          src={ drinkTitleIcon }
           alt="drink icon"
           data-testid="drinks-bottom-btn"
         />
@@ -24,7 +24,7 @@ function Footer() {
         to="/meals"
       >
         <img
-          src={ mealIcon }
+          src={ mealTitleIcon }
           alt="meal icon"
           data-testid="meals-bottom-btn"
         />

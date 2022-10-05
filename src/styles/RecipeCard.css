@@ -14,6 +14,7 @@
 }
 
 .custom-card {
+  align-items: center;
   background: white;
   border: 0.518px solid #b1b1b1;
   border-radius: 5px;

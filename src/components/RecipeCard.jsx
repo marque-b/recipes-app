@@ -32,8 +32,8 @@ function RecipeCard({ param, index }) {
                   data-testid={ `${index}-card-img` }
                 />
                 <p
-                  data-testid={ `${index}-card-name` }
                   className="card-text recipe-title"
+                  data-testid={ `${index}-card-name` }
                 >
                   {strMeal}
                 </p>
@@ -45,17 +45,25 @@ function RecipeCard({ param, index }) {
       <div id="drinks-div">
         {pathname === '/drinks' && (
           <button
+            className="search-btn bg-transparent btn-primary-outline"
             type="button"
             onClick={ () => handleCardClick(idDrink, 'drinks') }
           >
             <div data-testid={ `${index}-recipe-card` }>
-              <img
-                src={ strDrinkThumb }
-                alt={ strDrink }
-                data-testid={ `${index}-card-img` }
-                style={ { width: '150px' } }
-              />
-              <p data-testid={ `${index}-card-name` }>{strDrink}</p>
+              <div className="card custom-card">
+                <img
+                  className="card-img-top card-image"
+                  src={ strDrinkThumb }
+                  alt={ strDrink }
+                  data-testid={ `${index}-card-img` }
+                />
+                <p
+                  className="card-text recipe-title"
+                  data-testid={ `${index}-card-name` }
+                >
+                  {strDrink}
+                </p>
+              </div>
             </div>
           </button>
         )}

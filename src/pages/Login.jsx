@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import { Col } from 'react-bootstrap';
 import '../styles/Login.css';
-import { Col, Row } from 'react-bootstrap';
 
 function Login() {
   const [email, setEmail] = useState('');

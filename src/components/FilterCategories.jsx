@@ -8,6 +8,11 @@ import breakfast from '../images/searchIcons/breakfast.svg';
 import chicken from '../images/searchIcons/chicken.svg';
 import lamb from '../images/searchIcons/lamb.svg';
 import dessert from '../images/searchIcons/dessert.svg';
+import ordinaryDrink from '../images/searchIcons/ordinaryDrink.svg';
+import otherUnknown from '../images/searchIcons/otherUnknown.svg';
+import cocoa from '../images/searchIcons/cocoa.svg';
+import shake from '../images/searchIcons/shake.svg';
+import cocktail from '../images/searchIcons/cocktail.svg';
 
 function FilterCategories() {
   const {
@@ -91,12 +96,20 @@ function FilterCategories() {
         ))
         : dinksCategories.map((category, i) => (
           <button
+            className="search-btn bg-transparent btn-primary-outline"
             key={ i }
             type="button"
             data-testid={ `${category.strCategory}-category-filter` }
             onClick={ () => handleClickCategoriesFilter(category.strCategory) }
           >
-            {category.strCategory}
+            {category.strCategory === 'Ordinary Drink'
+            && <img src={ ordinaryDrink } alt="Ordinary drink" />}
+            {category.strCategory === 'Cocktail'
+            && <img src={ cocktail } alt="Cocktail" />}
+            {category.strCategory === 'Shake' && <img src={ shake } alt="Shake" />}
+            {category.strCategory === 'Other/Unknown'
+            && <img src={ otherUnknown } alt="Other unknown" />}
+            {category.strCategory === 'Cocoa' && <img src={ cocoa } alt="Cocoa" /> }
           </button>
         ))}
     </div>
