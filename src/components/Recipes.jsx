@@ -19,37 +19,39 @@ function Recipes() {
   const numberOfRecipes = 12;
   const numberOfCategories = 5;
 
-  useEffect(async () => {
-    if (pathname === '/meals') {
-      const response = await fetch(
-        'https://www.themealdb.com/api/json/v1/1/search.php?s=',
-      );
-      const data = await response.json();
-      const firstsRecipes = data.meals.slice(0, numberOfRecipes);
-      setMeals(firstsRecipes);
-
-      const responseCategories = await fetch(
-        'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
-      );
-      const dataCategories = await responseCategories.json();
-      const categories = dataCategories.meals.slice(0, numberOfCategories);
-      setMealsCategories(categories);
-    }
-    if (pathname === '/drinks') {
-      const response = await fetch(
-        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
-      );
-      const data = await response.json();
-      const firstsDrinks = data.drinks.slice(0, numberOfRecipes);
-      setDrinks(firstsDrinks);
-      const responseCategories = await fetch(
-        'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list',
-      );
-      const dataCategories = await responseCategories.json();
-      const categories = dataCategories.drinks.slice(0, numberOfCategories);
-      setDrinksCategories(categories);
-    }
-  }, []);
+  useEffect(() => {
+    const setData = async () => {
+      if (pathname === '/meals') {
+        const response = await fetch(
+          'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+        );
+        const data = await response.json();
+        const firstsRecipes = data.meals.slice(0, numberOfRecipes);
+        setMeals(firstsRecipes);
+        const responseCategories = await fetch(
+          'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
+        );
+        const dataCategories = await responseCategories.json();
+        const categories = dataCategories.meals.slice(0, numberOfCategories);
+        setMealsCategories(categories);
+      }
+      if (pathname === '/drinks') {
+        const response = await fetch(
+          'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+        );
+        const data = await response.json();
+        const firstsDrinks = data.drinks.slice(0, numberOfRecipes);
+        setDrinks(firstsDrinks);
+        const responseCategories = await fetch(
+          'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list',
+        );
+        const dataCategories = await responseCategories.json();
+        const categories = dataCategories.drinks.slice(0, numberOfCategories);
+        setDrinksCategories(categories);
+      }
+    };
+    setData();
+  }, [pathname, setDrinks, setDrinksCategories, setMeals, setMealsCategories]);
 
   return (
     <div>

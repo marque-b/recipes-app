@@ -4,8 +4,8 @@ import { useLocation, useHistory } from 'react-router-dom';
 // import DrinksRecommendationCarousel from '../components/DrinksRecommendationCarousel';
 import { fetchDrinkById } from '../services';
 import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import likedIcon from '../images/likedIcon.svg';
+import likeIcon from '../images/likeIcon.svg';
 import { INGREDIENTS_AND_MEASURE } from '../services/consts';
 
 function DrinkRecipeInProgress() {
@@ -111,10 +111,10 @@ function DrinkRecipeInProgress() {
               type="button"
               className="favorite-button"
               onClick={ () => handleClickFavorites() }
-              src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
+              src={ favoriteSelected ? likedIcon : likeIcon }
             >
               <img
-                src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
+                src={ favoriteSelected ? likedIcon : likeIcon }
                 alt="favorite button"
               />
             </button>

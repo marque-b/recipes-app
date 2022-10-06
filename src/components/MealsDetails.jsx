@@ -5,26 +5,39 @@ import copy from 'clipboard-copy';
 import AppReceitasContext from '../context/AppReceitasContext';
 import DrinksRecommendationCarousel from './DrinksRecommendationCarousel';
 import { INGREDIENTS_AND_MEASURE } from '../services/consts';
-import './Details.css';
 import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import likeIcon from '../images/likeIcon.svg';
+import likedIcon from '../images/likedIcon.svg';
+import beef from '../images/iconsWithoutText/beef.svg';
+import breakfast from '../images/iconsWithoutText/breakfast.svg';
+import chicken from '../images/iconsWithoutText/chicken.svg';
+import lamb from '../images/iconsWithoutText/lamb.svg';
+import dessert from '../images/iconsWithoutText/dessert.svg';
+// import ordinaryDrink from '../images/iconsWithoutText/ordinaryDrink.svg';
+// import otherUnknown from '../images/iconsWithoutText/otherUnknown.svg';
+// import cocoa from '../images/iconsWithoutText/cocoa.svg';
+// import shake from '../images/iconsWithoutText/shake.svg';
+// import cocktail from '../images/iconsWithoutText/cocktail.svg';
+import '../styles/MealsDetails.css';
 
 function MealsDetails({ recipe }) {
   const { setRecommendedDrinks } = useContext(AppReceitasContext);
-  const [recipeStarted, setRecipeStarted] = useState(false);
-  const history = useHistory();
-  const [copyText, setCopyText] = useState('');
-  const [favoriteSelected, setFavoriteSelected] = useState(false);
 
-  const isFavorite = () => {
-    const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
-    const favoriteRecipes = JSON.parse(favorites);
-    const checkResult = favoriteRecipes
-      .some((favoriteRecipe) => favoriteRecipe.id === recipe.idMeal);
-    console.log(checkResult);
-    return checkResult;
-  };
+  const [recipeStarted, setRecipeStarted] = useState(false);
+  const [favoriteSelected, setFavoriteSelected] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const history = useHistory();
+  useEffect(() => {
+    const checkFavorite = () => {
+      const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
+      const favoriteRecipes = JSON.parse(favorites);
+      const checkResult = favoriteRecipes
+        .some((favoriteRecipe) => favoriteRecipe.id === recipe.idMeal);
+      if (checkResult) { setIsFavorite(true); } else { setIsFavorite(false); }
+    };
+    checkFavorite();
+  }, [setIsFavorite, recipe.idMeal]);
 
   useEffect(() => {
     fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
@@ -40,10 +53,8 @@ function MealsDetails({ recipe }) {
         setRecipeStarted(true);
       }
     }
-    setFavoriteSelected(isFavorite());
-  }, []);
-
-  // if (!recipe) return '';
+    setFavoriteSelected(isFavorite);
+  }, [isFavorite, recipe?.idMeal, setRecommendedDrinks]);
 
   const handleClickStart = () => {
     history.push(`/meals/${recipe.idMeal}/in-progress`);
@@ -51,13 +62,14 @@ function MealsDetails({ recipe }) {
 
   const copyToClipboard = () => {
     copy(global.location.href);
-    setCopyText('Link copied!');
+    global.alert('Link copied');
   };
 
   const handleClickFavorites = () => {
+    setIsFavorite(!isFavorite);
     const favorites = localStorage.getItem('favoriteRecipes') ?? '[]';
     const favoriteRecipes = JSON.parse(favorites);
-    if (isFavorite()) {
+    if (isFavorite) {
       const removeFavorite = favoriteRecipes
         .filter((favoriteRecipe) => favoriteRecipe.id !== recipe.idMeal);
       localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
@@ -79,45 +91,55 @@ function MealsDetails({ recipe }) {
 
   return (
     <div>
-      <img
-        src={ recipe.strMealThumb }
-        alt={ recipe.strMeal }
-        data-testid="recipe-photo"
-        style={ { height: '360px' } }
-      />
-      <button
-        data-testid="share-btn"
-        type="button"
-        className="share-button"
-        onClick={ copyToClipboard }
-      >
-        <img src={ shareIcon } alt="share button" />
-      </button>
-
-      <button
-        type="button"
-        className="favorite-button"
-        onClick={ handleClickFavorites }
-      >
+      <div className="image-container">
         <img
-          data-testid="favorite-btn"
-          alt="heart white or black"
-          src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
+          className="img-fluid recipe-image"
+          src={ recipe.strMealThumb }
+          alt={ recipe.strMeal }
+          data-testid="recipe-photo"
         />
-      </button>
+        <div className="icons-container">
 
-      <p>{ copyText }</p>
+          {recipe.strCategory === 'Beef' && <img src={ beef } alt="Beef" />}
+          {recipe.strCategory === 'Breakfast'
+          && <img src={ breakfast } alt="Breakfast" />}
+          {recipe.strCategory === 'Chicken'
+          && <img src={ chicken } alt="Chicken" />}
+          {recipe.strCategory === 'Goat' && <img src={ lamb } alt="Goat" />}
+          {recipe.strCategory === 'Dessert'
+          && <img src={ dessert } alt="Dessert" />}
 
-      <h1
-        data-testid="recipe-title"
-      >
-        {recipe.strMeal}
-      </h1>
-      <p
-        data-testid="recipe-category"
-      >
-        {recipe.strCategory}
-      </p>
+          <button
+            className="search-btn bg-transparent btn-primary-outline"
+            data-testid="share-btn"
+            type="button"
+            onClick={ copyToClipboard }
+          >
+            <img src={ shareIcon } alt="share button" />
+          </button>
+
+          <button
+            className="search-btn bg-transparent btn-primary-outline"
+            type="button"
+            onClick={ handleClickFavorites }
+          >
+            <img
+              data-testid="favorite-btn"
+              alt="heart white or black"
+              src={ favoriteSelected ? likedIcon : likeIcon }
+            />
+          </button>
+        </div>
+
+        <h1
+          className="recipe-title"
+          data-testid="recipe-title"
+        >
+          {recipe.strMeal}
+        </h1>
+
+      </div>
+
       <ul>
         { INGREDIENTS_AND_MEASURE.map((pair, i) => (
           recipe[pair.ingredients] !== null && recipe[pair.ingredients].length > 1

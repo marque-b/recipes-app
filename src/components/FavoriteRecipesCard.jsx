@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
 import AppReceitasContext from '../context/AppReceitasContext';
 
 function FavoriteRecipesCard({ param, index }) {

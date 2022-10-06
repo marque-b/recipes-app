@@ -1,0 +1,42 @@
+.image-container {
+  align-items: center;
+  aspect-ratio: 2.2/1;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.recipe-image {
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), black);
+}
+
+.icons-container {
+  display: flex;
+  justify-content: space-around;
+  left: 0;
+  padding-top: 15px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.icons-container img {
+  height: 28px;
+}
+
+.recipe-title {
+  color: white;
+  font-family: Epilogue , sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+  height: 42px;
+  left: 110.01px;
+  letter-spacing: 0.105em;
+  line-height: 20px;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  top: 81px;
+  width: 147px;
+}

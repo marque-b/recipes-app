@@ -7,8 +7,8 @@ import MealsRecommendationCarousel from './MealsRecommendationCarousel';
 import { INGREDIENTS_AND_MEASURE } from '../services/consts';
 import './Details.css';
 import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import likedIcon from '../images/likedIcon.svg';
+import likeIcon from '../images/likeIcon.svg';
 
 function DrinksDetails({ recipe }) {
   const { setRecommendedMeals } = useContext(AppReceitasContext);
@@ -99,7 +99,7 @@ function DrinksDetails({ recipe }) {
         <img
           data-testid="favorite-btn"
           alt="heart white or black"
-          src={ favoriteSelected ? blackHeartIcon : whiteHeartIcon }
+          src={ favoriteSelected ? likedIcon : likeIcon }
         />
       </button>
       <p>{ copyText }</p>
